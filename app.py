@@ -34,13 +34,13 @@ st.markdown(
         font-size: 34px;
         font-weight: 900;
         white-space: nowrap;       
-        color: #fde68a;
-    text-shadow:
-        0 0 4px #facc15,
-        0 0 8px #eab308,
-        0 0 16px #ca8a04,
-        0 0 32px #a16207;
-
+        color: #ffffff;
+        
+        text-shadow:
+        0 0 4px #38bdf8,
+        0 0 8px #38bdf8,
+        0 0 16px #0ea5e9,
+        0 0 32px #0ea5e9;
 
         margin-bottom: 20px;
     }

@@ -2,9 +2,7 @@ import streamlit as st
 import random
 import time
 
-# ===============================
 # 背景・全体文字色
-# ===============================
 st.markdown(
     """
     <style>
@@ -26,9 +24,8 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-# ===============================
+
 # ネオンタイトル
-# ===============================
 st.markdown(
     """
     <style>
@@ -36,13 +33,15 @@ st.markdown(
         text-align: center;
         font-size: 34px;
         font-weight: 900;
-        white-space: nowrap;
-        color: #e0f2fe;
-        text-shadow:
-            0 0 4px #38bdf8,
-            0 0 8px #38bdf8,
-            0 0 16px #0ea5e9,
-            0 0 32px #0ea5e9;
+        white-space: nowrap;       
+        color: #fde68a;
+    text-shadow:
+        0 0 4px #facc15,
+        0 0 8px #eab308,
+        0 0 16px #ca8a04,
+        0 0 32px #a16207;
+
+
         margin-bottom: 20px;
     }
     </style>
@@ -54,11 +53,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
-
-# ===============================
 # 単語リスト
-# ===============================
 words = [
     # 食べ物
     "りんご","ばなな","おれんじ","めろん","いちご","ぶどう","もも",
@@ -89,55 +84,42 @@ words = [
 
 CLEAR_COUNT = 10
 
-# ===============================
 # セッション初期化
-# ===============================
-if "target" not in st.session_state:
-    st.session_state.target = random.choice(words)
+defaults = {
+    "target": random.choice(words),
+    "count": 0,
+    "start_time": time.time(),
+    "input": ""
+}
 
-if "count" not in st.session_state:
-    st.session_state.count = 0
+for key, value in defaults.items():
+    if key not in st.session_state:
+        st.session_state[key] = value
 
-if "start_time" not in st.session_state:
-    st.session_state.start_time = time.time()
 
-if "input" not in st.session_state:
-    st.session_state.input = ""
-
-if "flash" not in st.session_state:
-    st.session_state.flash = False
-
-# ===============================
 # 判定処理
-# ===============================
 def check_answer():
     if st.session_state.input == st.session_state.target:
         st.session_state.count += 1
         st.session_state.target = random.choice(words)
-        st.session_state.flash = True
-    st.session_state.input = ""
+        st.session_state.input = ""
 
-# ===============================
+
 # クリア画面
-# ===============================
-if st.session_state.count >= CLEAR_COUNT:
+if st.session_state.count == CLEAR_COUNT:
     elapsed = time.time() - st.session_state.start_time
     st.balloons()
     st.success("🏆 ゲームクリア！")
     st.write(f"かかった時間：{elapsed:.2f} 秒")
 
     if st.button("もう一度遊ぶ"):
-        st.session_state.count = 0
-        st.session_state.target = random.choice(words)
-        st.session_state.start_time = time.time()
-        st.session_state.input = ""
+        for key in defaults:
+            st.session_state[key] = defaults[key]
         st.rerun()
 
     st.stop()
 
-# ===============================
 # ゲーム画面
-# ===============================
 st.markdown(
     f"""
     <div style="
@@ -166,10 +148,7 @@ st.markdown(
     unsafe_allow_html=True
 )
 
-
-# ===============================
 # 入力欄
-# ===============================
 st.text_input(
     "ここに入力",
     key="input",
